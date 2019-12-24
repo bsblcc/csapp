@@ -143,7 +143,10 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+  int a = ~((~x) & y);
+  int b = ~((~y) & x);
+  int c = ~(a & b);
+  return c;
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -152,8 +155,7 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-
-  return 2;
+  return 1 << 31;
 
 }
 //2
@@ -165,7 +167,10 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  int a = x + 1;
+  int b = a + a;
+  int f = !a;
+  return (!b) & (!f);
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +181,18 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+  int a = 0xaa;
+  int mask = a;
+  int test;
+
+
+  mask = (mask << 8) + a;
+  mask = (mask << 8) + a;
+  mask = (mask << 8) + a;
+
+  test = mask & x;
+
+  return !(test ^ mask);
 }
 /* 
  * negate - return -x 
@@ -186,7 +202,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return ~x + 1;
 }
 //3
 /* 
@@ -199,7 +215,13 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+
+  int f1 = !((x >> 4) ^ 0x3); // must be 1
+  int f2 = !(x & 0x8);   // 1  = ok
+  int f3 = !((x & 0x6));   // 1 = ok
+
+  return f1 & (f2 | f3);
+
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +231,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  int a = !x; 
+  int mask = (a << 31) >> 31;
+  return (y & (~mask)) | (z & mask);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +243,35 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  
+  // (x <= y) == (y + (-x) >= 0)
+
+  
+
+  int nx = ~x + 1;
+  int s = y + nx;
+
+
+
+  int snx = nx >> 31;
+  int sy = y >> 31;
+  int ss = s >> 31;
+
+  int f1 = ~(snx ^ sy);
+  int f2 = ss ^ sy;
+  int overflow = f1 & f2;
+  
+  int m = 1 << 31;
+  int fx = !((m & x) ^ m);
+  int fy = !((m & y) ^ m);
+
+  printf("snx:%d sy:%d ss:%d f1:%d f2:%d overflow:%d\n", snx, sy, ss, f1, f2,overflow);
+  printf("fx: %d, fy: %d\n", fx, fy);
+  return ((!(!(overflow ^ ss))) & (fx | (!fy))) | fx;
+
+
+
+
 }
 //4
 /* 
