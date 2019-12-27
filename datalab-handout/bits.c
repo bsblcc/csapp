@@ -253,21 +253,16 @@ int isLessOrEqual(int x, int y) {
 
 
 
-  int snx = nx >> 31;
-  int sy = y >> 31;
-  int ss = s >> 31;
+  int f1 = ~(nx ^ y);
+  int f2 = s ^ y;
+  int overflow = f1 & f2;     // at highest bit
+  int x_equal_y = !(x ^ y);
+  int min_neg = 1 << 31;
+  int x_equal_min_neg = !(x ^ min_neg); // 0 or 1
+  int y_equal_min_neg = !(y ^ min_neg); // thought this could be more elegant
 
-  int f1 = ~(snx ^ sy);
-  int f2 = ss ^ sy;
-  int overflow = f1 & f2;
-  
-  int m = 1 << 31;
-  int fx = !((m & x) ^ m);
-  int fy = !((m & y) ^ m);
-
-  printf("snx:%d sy:%d ss:%d f1:%d f2:%d overflow:%d\n", snx, sy, ss, f1, f2,overflow);
-  printf("fx: %d, fy: %d\n", fx, fy);
-  return ((!(!(overflow ^ ss))) & (fx | (!fy))) | fx;
+  // a weird/dummy solution, very comfortable to code.
+  return (x_equal_y) | (x_equal_min_neg) | ((!y_equal_min_neg) & (!((s ^ overflow) >> 31)));
 
 
 
@@ -283,7 +278,16 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+
+  int min_neg = 1 << 31;
+  int max_pos = ~min_neg;
+  int a = min_neg + x;  // should be 1*****
+  int b = max_pos + x;  // should be 0******
+  int f = a & (~b);
+
+
+
+  return (f >> 31) & 0x1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -313,7 +317,30 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+  unsigned e_mask = 0x7f800000;
+  unsigned s_mask = 0x80000000;
+  unsigned m_mask = 0x007fffff;
+
+  unsigned s = uf & s_mask;
+  unsigned e = uf & e_mask;
+
+  unsigned m = uf & m_mask;
+  
+  if (e == e_mask) {  // NaN
+    return uf;
+  }
+  
+  if (e == 0) {
+    if (m == 0) { // +0, -0
+      return uf;
+    } 
+    else {  // denormalized
+      return s + e + (m << 1);
+    }
+  }
+  
+  return s + m + e + 0x00800000;
+
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -328,6 +355,28 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
+  unsigned e_mask = 0x7f800000;
+  unsigned s_mask = 0x80000000;
+  unsigned m_mask = 0x007fffff;
+
+  unsigned s = uf & s_mask;
+  unsigned e = uf & e_mask;
+  unsigned m = uf & m_mask;
+  
+  int t_shift = ((e >> 23) - 127);
+  if (e == 0 || (e < 0x3f800000)) {
+    return 0;
+  } 
+  else if (e == 0x3f800000) {
+    return 1;
+  } 
+  else if (t_shift > 30){
+    return 0x80000000u;
+  }
+  else {
+    return s + (1 << t_shift) + (m >> (23 - t_shift));
+  }
+
   return 2;
 }
 /* 
