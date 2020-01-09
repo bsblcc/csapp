@@ -364,11 +364,16 @@ int floatFloat2Int(unsigned uf) {
   unsigned m = uf & m_mask;
   
   int t_shift = ((e >> 23) - 127);
-  if (e == 0 || (e < 0x3f800000)) {
+  if (e == 0 || (e < 0x3f800000)) {   // 0x3f800000: when E is set to bias, other bits being 0s.
     return 0;
   } 
   else if (e == 0x3f800000) {
-    return 1;
+    if (s == 0) {
+      return 1;
+    }
+    else {
+      return -1;
+    }
   } 
   else if (t_shift > 30){
     return 0x80000000u;
@@ -393,5 +398,44 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+
+  if (x > 127) {
+    return 0x7f800000;
+  }
+  else if (x < 0) {
+    if (x > -150) {  // denormalized
+      return 1 << (x + 149);
+    }
+    else { // underflow
+      return 0;
+    }
+  }
+  return (x + 127) << 23;
 }
+
+
+/*
+  if (x > 0) {
+    if (x > 127) {
+      return 0x7f800000;
+    }
+    else {
+      
+    }
+  }
+  else if (x < 0) {
+    if (x > -127) { // normalized
+
+    }
+    else if (x > -150) {  // denormalized
+      return 1 << (x + 149);
+    }
+    else { // underflow
+      return 0;
+    }
+  }
+  else {
+    
+    
+  }
+  return (x + 127) << 23; */
