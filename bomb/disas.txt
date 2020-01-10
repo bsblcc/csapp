@@ -327,7 +327,7 @@ printf (const char *__restrict __fmt, ...)
   400e98:	bf d8 23 40 00       	mov    $0x4023d8,%edi
   400e9d:	e8 6e fc ff ff       	callq  400b10 <puts@plt>
   400ea2:	e8 f7 05 00 00       	callq  40149e <read_line>
-  400ea7:	48 89 c7             	mov    %rax,%rdi                  // must find out what's inside %rax
+  400ea7:	48 89 c7             	mov    %rax,%rdi                  # must find out what's inside %rax
   400eaa:	e8 b3 01 00 00       	callq  401062 <phase_5>
   400eaf:	e8 10 07 00 00       	callq  4015c4 <phase_defused>
   400eb4:	bf 1a 23 40 00       	mov    $0x40231a,%edi
@@ -364,22 +364,22 @@ printf (const char *__restrict __fmt, ...)
   400efd:	53                   	push   %rbx
   400efe:	48 83 ec 28          	sub    $0x28,%rsp
   400f02:	48 89 e6             	mov    %rsp,%rsi
-  400f05:	e8 52 05 00 00       	callq  40145c <read_six_numbers>        // input more than 5 numbers
-  400f0a:	83 3c 24 01          	cmpl   $0x1,(%rsp)                // first number must be 0x1
+  400f05:	e8 52 05 00 00       	callq  40145c <read_six_numbers>        # input more than 5 numbers
+  400f0a:	83 3c 24 01          	cmpl   $0x1,(%rsp)                # first number must be 0x1
   400f0e:	74 20                	je     400f30 <phase_2+0x34>
   400f10:	e8 25 05 00 00       	callq  40143a <explode_bomb>
   400f15:	eb 19                	jmp    400f30 <phase_2+0x34>
-  400f17:	8b 43 fc             	mov    -0x4(%rbx),%eax            // %eax = (%rsp)
+  400f17:	8b 43 fc             	mov    -0x4(%rbx),%eax            # %eax = (%rsp)
   400f1a:	01 c0                	add    %eax,%eax
-  400f1c:	39 03                	cmp    %eax,(%rbx)                // #1 * 2 = #2
+  400f1c:	39 03                	cmp    %eax,(%rbx)                # #1 * 2 = #2
   400f1e:	74 05                	je     400f25 <phase_2+0x29>
   400f20:	e8 15 05 00 00       	callq  40143a <explode_bomb>
-  400f25:	48 83 c3 04          	add    $0x4,%rbx              // %rbx = %rsp + 0x8
-  400f29:	48 39 eb             	cmp    %rbp,%rbx              // %rbp == $rsp + 0x18
-  400f2c:	75 e9                	jne    400f17 <phase_2+0x1b>          // failed
+  400f25:	48 83 c3 04          	add    $0x4,%rbx              # %rbx = %rsp + 0x8
+  400f29:	48 39 eb             	cmp    %rbp,%rbx              # %rbp == $rsp + 0x18
+  400f2c:	75 e9                	jne    400f17 <phase_2+0x1b>          # failed
   400f2e:	eb 0c                	jmp    400f3c <phase_2+0x40>
-  400f30:	48 8d 5c 24 04       	lea    0x4(%rsp),%rbx             // %rbx = %rsp + 0x4
-  400f35:	48 8d 6c 24 18       	lea    0x18(%rsp),%rbp            // %rbp = %rsp + 0x18
+  400f30:	48 8d 5c 24 04       	lea    0x4(%rsp),%rbx             # %rbx = %rsp + 0x4
+  400f35:	48 8d 6c 24 18       	lea    0x18(%rsp),%rbp            # %rbp = %rsp + 0x18
   400f3a:	eb db                	jmp    400f17 <phase_2+0x1b>
   400f3c:	48 83 c4 28          	add    $0x28,%rsp
   400f40:	5b                   	pop    %rbx
@@ -390,7 +390,7 @@ printf (const char *__restrict __fmt, ...)
   400f43:	48 83 ec 18          	sub    $0x18,%rsp
   400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
   400f4c:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
-  400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi         // %d %d
+  400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi         # %d %d
   400f56:	b8 00 00 00 00       	mov    $0x0,%eax
   400f5b:	e8 90 fc ff ff       	callq  400bf0 <__isoc99_sscanf@plt>
   400f60:	83 f8 01             	cmp    $0x1,%eax
@@ -398,13 +398,13 @@ printf (const char *__restrict __fmt, ...)
   400f65:	e8 d0 04 00 00       	callq  40143a <explode_bomb>
 
 
-  400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp)               // 0x8(%rsp) = first number.
-  400f6f:	77 3c                	ja     400fad <phase_3+0x6a>        // first number < 0x7
+  400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp)               # 0x8(%rsp) = first number.
+  400f6f:	77 3c                	ja     400fad <phase_3+0x6a>        # first number < 0x7
 
 
   400f71:	8b 44 24 08          	mov    0x8(%rsp),%eax
-  400f75:	ff 24 c5 70 24 40 00 	jmpq   *0x402470(,%rax,8)         // jump to (0x402470 + %rax * 8)
-                                                                  // if first number equal 0x1, then it jumps to 0x400fb9
+  400f75:	ff 24 c5 70 24 40 00 	jmpq   *0x402470(,%rax,8)         # jump to (0x402470 + %rax * 8)
+                                                                  # if first number equal 0x1, then it jumps to 0x400fb9
 
 
   400f7c:	b8 cf 00 00 00       	mov    $0xcf,%eax
@@ -428,22 +428,22 @@ printf (const char *__restrict __fmt, ...)
   400fb7:	eb 05                	jmp    400fbe <phase_3+0x7b>
 
   400fb9:	b8 37 01 00 00       	mov    $0x137,%eax
-  400fbe:	3b 44 24 0c          	cmp    0xc(%rsp),%eax         // second number must equal 0x137
+  400fbe:	3b 44 24 0c          	cmp    0xc(%rsp),%eax         # second number must equal 0x137
   400fc2:	74 05                	je     400fc9 <phase_3+0x86>
   400fc4:	e8 71 04 00 00       	callq  40143a <explode_bomb>
   400fc9:	48 83 c4 18          	add    $0x18,%rsp
   400fcd:	c3                   	retq   
 
-0000000000400fce <func4>:                   // %edx = 14, %esi = 0, %edi = first number.
+0000000000400fce <func4>:                   # %edx = 14, %esi = 0, %edi = first number.
   400fce:	48 83 ec 08          	sub    $0x8,%rsp
-  400fd2:	89 d0                	mov    %edx,%eax        // %eax = 14
-  400fd4:	29 f0                	sub    %esi,%eax        // %eax = %eax - %esi = 14 - 0 = 14
-  400fd6:	89 c1                	mov    %eax,%ecx        // %ecx = %eax = 14
-  400fd8:	c1 e9 1f             	shr    $0x1f,%ecx       // %ecx = %ecx >> 0x1f = 0
-  400fdb:	01 c8                	add    %ecx,%eax        // %eax = %eax + %ecx = 14 + 0 = 14
-  400fdd:	d1 f8                	sar    %eax             // %eax = %eax >> 1 = 7
-  400fdf:	8d 0c 30             	lea    (%rax,%rsi,1),%ecx     // %ecx = %rax + %rsi = 7
-  400fe2:	39 f9                	cmp    %edi,%ecx          // compare first number with 7
+  400fd2:	89 d0                	mov    %edx,%eax        # %eax = 14
+  400fd4:	29 f0                	sub    %esi,%eax        # %eax = %eax - %esi = 14 - 0 = 14
+  400fd6:	89 c1                	mov    %eax,%ecx        # %ecx = %eax = 14
+  400fd8:	c1 e9 1f             	shr    $0x1f,%ecx       # %ecx = %ecx >> 0x1f = 0
+  400fdb:	01 c8                	add    %ecx,%eax        # %eax = %eax + %ecx = 14 + 0 = 14
+  400fdd:	d1 f8                	sar    %eax             # %eax = %eax >> 1 = 7
+  400fdf:	8d 0c 30             	lea    (%rax,%rsi,1),%ecx     # %ecx = %rax + %rsi = 7
+  400fe2:	39 f9                	cmp    %edi,%ecx          # compare first number with 7
   400fe4:	7e 0c                	jle    400ff2 <func4+0x24>
   400fe6:	8d 51 ff             	lea    -0x1(%rcx),%edx
   400fe9:	e8 e0 ff ff ff       	callq  400fce <func4>
@@ -452,9 +452,9 @@ printf (const char *__restrict __fmt, ...)
 
 
   400ff2:	b8 00 00 00 00       	mov    $0x0,%eax
-  400ff7:	39 f9                	cmp    %edi,%ecx              // compare first number with 7
+  400ff7:	39 f9                	cmp    %edi,%ecx              # compare first number with 7
   400ff9:	7d 0c                	jge    401007 <func4+0x39>
-  400ffb:	8d 71 01             	lea    0x1(%rcx),%esi           // %esi = %rcx + 1 = 8
+  400ffb:	8d 71 01             	lea    0x1(%rcx),%esi           # %esi = %rcx + 1 = 8
   400ffe:	e8 cb ff ff ff       	callq  400fce <func4>
   401003:	8d 44 00 01          	lea    0x1(%rax,%rax,1),%eax
   401007:	48 83 c4 08          	add    $0x8,%rsp
@@ -464,19 +464,19 @@ printf (const char *__restrict __fmt, ...)
   40100c:	48 83 ec 18          	sub    $0x18,%rsp
   401010:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
   401015:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
-  40101a:	be cf 25 40 00       	mov    $0x4025cf,%esi     // two numbers
+  40101a:	be cf 25 40 00       	mov    $0x4025cf,%esi     # two numbers
   40101f:	b8 00 00 00 00       	mov    $0x0,%eax
   401024:	e8 c7 fb ff ff       	callq  400bf0 <__isoc99_sscanf@plt>
   401029:	83 f8 02             	cmp    $0x2,%eax
-  40102c:	75 07                	jne    401035 <phase_4+0x29>    // definitly 2 numbers
+  40102c:	75 07                	jne    401035 <phase_4+0x29>    # definitly 2 numbers
 
 
-  40102e:	83 7c 24 08 0e       	cmpl   $0xe,0x8(%rsp)         // first number <= 14
+  40102e:	83 7c 24 08 0e       	cmpl   $0xe,0x8(%rsp)         # first number <= 14
   401033:	76 05                	jbe    40103a <phase_4+0x2e>
   401035:	e8 00 04 00 00       	callq  40143a <explode_bomb>
-  40103a:	ba 0e 00 00 00       	mov    $0xe,%edx            // %edx = 14
-  40103f:	be 00 00 00 00       	mov    $0x0,%esi            // %esi = 0
-  401044:	8b 7c 24 08          	mov    0x8(%rsp),%edi       // %edi = first number
+  40103a:	ba 0e 00 00 00       	mov    $0xe,%edx            # %edx = 14
+  40103f:	be 00 00 00 00       	mov    $0x0,%esi            # %esi = 0
+  401044:	8b 7c 24 08          	mov    0x8(%rsp),%edi       # %edi = first number
 
 
   401048:	e8 81 ff ff ff       	callq  400fce <func4>
@@ -500,19 +500,18 @@ printf (const char *__restrict __fmt, ...)
   401078:	31 c0                	xor    %eax,%eax
   40107a:	e8 9c 02 00 00       	callq  40131b <string_length>
   40107f:	83 f8 06             	cmp    $0x6,%eax
-  401082:	74 4e                	je     4010d2 <phase_5+0x70>                // string length must be 6
+  401082:	74 4e                	je     4010d2 <phase_5+0x70>                # string length must be 6
 
 
   401084:	e8 b1 03 00 00       	callq  40143a <explode_bomb>
   401089:	eb 47                	jmp    4010d2 <phase_5+0x70>
 
-char#i
-  40108b:	0f b6 0c 03          	movzbl (%rbx,%rax,1),%ecx       // %ecx = ASCII of i-th char
-  40108f:	88 0c 24             	mov    %cl,(%rsp)               // (%rsp) byte = ASCII
+  40108b:	0f b6 0c 03          	movzbl (%rbx,%rax,1),%ecx       # %ecx = ASCII of i-th char
+  40108f:	88 0c 24             	mov    %cl,(%rsp)               # (%rsp) byte = ASCII
   401092:	48 8b 14 24          	mov    (%rsp),%rdx              
-  401096:	83 e2 0f             	and    $0xf,%edx                // %edx = lowest 4 bits of ASCII
-  401099:	0f b6 92 b0 24 40 00 	movzbl 0x4024b0(%rdx),%edx      // %edx = 1st byte on(%edx + 0x4024b0)
-  4010a0:	88 54 04 10          	mov    %dl,0x10(%rsp,%rax,1)    // byte on 0x10 + %rsp + i = byte on %edx + 0x4024b0
+  401096:	83 e2 0f             	and    $0xf,%edx                # %edx = lowest 4 bits of ASCII
+  401099:	0f b6 92 b0 24 40 00 	movzbl 0x4024b0(%rdx),%edx      # %edx = 1st byte on(%edx + 0x4024b0)
+  4010a0:	88 54 04 10          	mov    %dl,0x10(%rsp,%rax,1)    # byte on 0x10 + %rsp + i = byte on %edx + 0x4024b0
   4010a4:	48 83 c0 01          	add    $0x1,%rax
   4010a8:	48 83 f8 06          	cmp    $0x6,%rax
   4010ac:	75 dd                	jne    40108b <phase_5+0x29>
@@ -520,8 +519,8 @@ char#i
 
   4010ae:	c6 44 24 16 00       	movb   $0x0,0x16(%rsp)
   4010b3:	be 5e 24 40 00       	mov    $0x40245e,%esi
-  4010b8:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi            // %rdi = %rsp + 0x10
-  4010bd:	e8 76 02 00 00       	callq  401338 <strings_not_equal>     // string on 0x40245e (flyers) and 0x10 + %rsp
+  4010b8:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi            # %rdi = %rsp + 0x10
+  4010bd:	e8 76 02 00 00       	callq  401338 <strings_not_equal>     # string on 0x40245e (flyers) and 0x10 + %rsp
   4010c2:	85 c0                	test   %eax,%eax
   4010c4:	74 13                	je     4010d9 <phase_5+0x77>
   4010c6:	e8 6f 03 00 00       	callq  40143a <explode_bomb>
@@ -550,58 +549,94 @@ char#i
   4010fa:	55                   	push   %rbp
   4010fb:	53                   	push   %rbx
   4010fc:	48 83 ec 50          	sub    $0x50,%rsp
+
+
   401100:	49 89 e5             	mov    %rsp,%r13
   401103:	48 89 e6             	mov    %rsp,%rsi
-  401106:	e8 51 03 00 00       	callq  40145c <read_six_numbers>
+  401106:	e8 51 03 00 00       	callq  40145c <read_six_numbers>    # first number on (%rsp)
   40110b:	49 89 e6             	mov    %rsp,%r14
   40110e:	41 bc 00 00 00 00    	mov    $0x0,%r12d
+
+
   401114:	4c 89 ed             	mov    %r13,%rbp
   401117:	41 8b 45 00          	mov    0x0(%r13),%eax
   40111b:	83 e8 01             	sub    $0x1,%eax
   40111e:	83 f8 05             	cmp    $0x5,%eax
-  401121:	76 05                	jbe    401128 <phase_6+0x34>
+  401121:	76 05                	jbe    401128 <phase_6+0x34>      # each number <= 6
   401123:	e8 12 03 00 00       	callq  40143a <explode_bomb>
+
+
   401128:	41 83 c4 01          	add    $0x1,%r12d
   40112c:	41 83 fc 06          	cmp    $0x6,%r12d
-  401130:	74 21                	je     401153 <phase_6+0x5f>
+  401130:	74 21                	je     401153 <phase_6+0x5f>     # i from 1 to 5
   401132:	44 89 e3             	mov    %r12d,%ebx
-  401135:	48 63 c3             	movslq %ebx,%rax
-  401138:	8b 04 84             	mov    (%rsp,%rax,4),%eax
+
+
+  401135:	48 63 c3             	movslq %ebx,%rax              # %rax = i
+  401138:	8b 04 84             	mov    (%rsp,%rax,4),%eax       # %eax = (i + 1)-th number
   40113b:	39 45 00             	cmp    %eax,0x0(%rbp)
-  40113e:	75 05                	jne    401145 <phase_6+0x51>
+  40113e:	75 05                	jne    401145 <phase_6+0x51>    # each number cannot equal the others
   401140:	e8 f5 02 00 00       	callq  40143a <explode_bomb>
-  401145:	83 c3 01             	add    $0x1,%ebx
+  401145:	83 c3 01             	add    $0x1,%ebx                
   401148:	83 fb 05             	cmp    $0x5,%ebx
   40114b:	7e e8                	jle    401135 <phase_6+0x41>
+
+
   40114d:	49 83 c5 04          	add    $0x4,%r13
   401151:	eb c1                	jmp    401114 <phase_6+0x20>
-  401153:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi
-  401158:	4c 89 f0             	mov    %r14,%rax
-  40115b:	b9 07 00 00 00       	mov    $0x7,%ecx
-  401160:	89 ca                	mov    %ecx,%edx
-  401162:	2b 10                	sub    (%rax),%edx
-  401164:	89 10                	mov    %edx,(%rax)
-  401166:	48 83 c0 04          	add    $0x4,%rax
-  40116a:	48 39 f0             	cmp    %rsi,%rax
+
+  
+  401153:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi      # %rsi = 0x18 + %rsp
+  401158:	4c 89 f0             	mov    %r14,%rax            # %rax = %rsp
+  40115b:	b9 07 00 00 00       	mov    $0x7,%ecx            # %ecx = 0x7
+
+  401160:	89 ca                	mov    %ecx,%edx            # %edx = 0x7
+  401162:	2b 10                	sub    (%rax),%edx          # %edx = 0x7 - i-th number
+  401164:	89 10                	mov    %edx,(%rax)          # i-th number = 0x7 - i-th number
+  401166:	48 83 c0 04          	add    $0x4,%rax            # %rax += 0x4
+  40116a:	48 39 f0             	cmp    %rsi,%rax            # i from 1 to 6
   40116d:	75 f1                	jne    401160 <phase_6+0x6c>
+
+
   40116f:	be 00 00 00 00       	mov    $0x0,%esi
   401174:	eb 21                	jmp    401197 <phase_6+0xa3>
-  401176:	48 8b 52 08          	mov    0x8(%rdx),%rdx
+
+
+  401176:	48 8b 52 08          	mov    0x8(%rdx),%rdx     
   40117a:	83 c0 01             	add    $0x1,%eax
   40117d:	39 c8                	cmp    %ecx,%eax
   40117f:	75 f5                	jne    401176 <phase_6+0x82>
   401181:	eb 05                	jmp    401188 <phase_6+0x94>
+
+
   401183:	ba d0 32 60 00       	mov    $0x6032d0,%edx
-  401188:	48 89 54 74 20       	mov    %rdx,0x20(%rsp,%rsi,2)
-  40118d:	48 83 c6 04          	add    $0x4,%rsi
+
+  401188:	48 89 54 74 20       	mov    %rdx,0x20(%rsp,%rsi,2)     # %rsp + %rsi * 2 + 0x20 = 0x6032d0
+  40118d:	48 83 c6 04          	add    $0x4,%rsi                  # %rsi += 4
   401191:	48 83 fe 18          	cmp    $0x18,%rsi
-  401195:	74 14                	je     4011ab <phase_6+0xb7>
-  401197:	8b 0c 34             	mov    (%rsp,%rsi,1),%ecx
+  401195:	74 14                	je     4011ab <phase_6+0xb7>      # while %rsi < 0x18
+
+
+                                                                  # %rsi starts from 0
+  401197:	8b 0c 34             	mov    (%rsp,%rsi,1),%ecx         # %ecx = (%rsp + %rsi)
   40119a:	83 f9 01             	cmp    $0x1,%ecx
   40119d:	7e e4                	jle    401183 <phase_6+0x8f>
+                 
   40119f:	b8 01 00 00 00       	mov    $0x1,%eax
   4011a4:	ba d0 32 60 00       	mov    $0x6032d0,%edx
   4011a9:	eb cb                	jmp    401176 <phase_6+0x82>
+
+
+
+                  # (%rsp + %rsi * 2 + 0x20) = %rdx, %rsi from 0 to 0x14
+                  # %rdx = 0x603320 (number = 1)
+                  # %rdx = 0x603310 (number = 2)
+                  # %rdx = 0x603300 (number = 3)
+                  # %rdx = 0x6032f0 (number = 4)
+                  # %rdx = 0x6032e0 (number = 5) 
+                  # %rdx = 0x6032d0 (number = 6)
+
+
   4011ab:	48 8b 5c 24 20       	mov    0x20(%rsp),%rbx
   4011b0:	48 8d 44 24 28       	lea    0x28(%rsp),%rax
   4011b5:	48 8d 74 24 50       	lea    0x50(%rsp),%rsi
@@ -720,7 +755,7 @@ char#i
   401311:	bf 08 00 00 00       	mov    $0x8,%edi
   401316:	e8 05 f9 ff ff       	callq  400c20 <exit@plt>
 
-000000000040131b <string_length>:       // %rdi = address of string
+000000000040131b <string_length>:       # %rdi = address of string
   40131b:	80 3f 00             	cmpb   $0x0,(%rdi)
   40131e:	74 12                	je     401332 <string_length+0x17>
   401320:	48 89 fa             	mov    %rdi,%rdx
@@ -733,14 +768,14 @@ char#i
   401332:	b8 00 00 00 00       	mov    $0x0,%eax
   401337:	c3                   	retq   
 
-0000000000401338 <strings_not_equal>:                     // phase 1: %esi = 0x402400
+0000000000401338 <strings_not_equal>:                     # phase 1: %esi = 0x402400
   401338:	41 54                	push   %r12
   40133a:	55                   	push   %rbp
   40133b:	53                   	push   %rbx
   40133c:	48 89 fb             	mov    %rdi,%rbx
   40133f:	48 89 f5             	mov    %rsi,%rbp
   401342:	e8 d4 ff ff ff       	callq  40131b <string_length>
-  401347:	41 89 c4             	mov    %eax,%r12d           // %eax = %r12d = string length
+  401347:	41 89 c4             	mov    %eax,%r12d           # %eax = %r12d = string length
   40134a:	48 89 ef             	mov    %rbp,%rdi
   40134d:	e8 c9 ff ff ff       	callq  40131b <string_length>
   401352:	ba 01 00 00 00       	mov    $0x1,%edx
