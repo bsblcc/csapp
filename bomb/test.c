@@ -9,6 +9,9 @@
 
 int main()
 {
-    int a, b, c, d;
-    scanf("%d%d%d%d\n", &a, &b, &c, &d);
+    int a, b;
+    char str[123];
+
+    int ret = scanf("%d %d %s", &a, &b, str);
+    printf("\n%d\n", ret);
 }
